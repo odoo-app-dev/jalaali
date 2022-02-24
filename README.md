@@ -11,23 +11,35 @@ This version of jalaali works on odoo 15 community edition. It shows most date f
 
 # Installation:
 ## 1- On odoo linux server:
-:/#cd /usr/lib/python3/dist-packages/odoo/custom/addons/
+1.1. :/#cd /usr/lib/python3/dist-packages/odoo/custom/addons/
+      
+1.2. :/usr/lib/python3/dist-packages/odoo/custom/addons#git clone https://github.com/odoo-app-dev/jalaali.git
 
-:/usr/lib/python3/dist-packages/odoo/custom/addons#git clone https://github.com/odoo-app-dev/jalaali.git
+    <strong>Note: </strong> You might also need to install jdatetime </br>
+      #pip install jdatetime</br>
+      (https://pypi.org/project/jdatetime/)
+  
+1.3. edit /etc/odoo/odoo.conf file and add your custom file on 
 
-<strong>Note: </strong> You might also need to install jdatetime </br>
-  #pip install jdatetime</br>
-  (https://pypi.org/project/jdatetime/)
+      Original odoo.conf file:
+      [options]
+      addons_path = /usr/lib/python3/dist-packages/odoo/addons
+
+      Edited odoo.conf file:
+      [options]
+      addons_path = /usr/lib/python3/dist-packages/odoo/addons , /usr/lib/python3/dist-packages/odoo/custom/addons
+
+1.4. #systemctl restart odoo
 
 ## 2- On odoo web application
 
-settings > Activate the developer mode (with assets)
+  2.1. settings > Activate the developer mode (with assets)
 
-apps > update apps list
+  2.2. apps > update apps list
 
-apps > (search for jalaali) > install
+  2.3. apps > (search for jalaali) > install
 
-settings > users > (select your user) > Preferences > Languages > (select Persian)
+  2.4. settings > users > (select your user) > Preferences > Languages > (select Persian)
 
 
 #
