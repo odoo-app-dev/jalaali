@@ -11,6 +11,15 @@ Note: To show jalaali dates, you need to change Persian as preference language.
 
 # Installation:
 ## 1- On odoo linux server:
+1.0. Make sure you installed npm and actvated rtlcss. If not, your odoo web will not work correctly while your user's prefrences language is Persian. So you need to run the folowing commands first.
+
+      #sudo apt-get install npm
+      
+      #sudo npm install -g rtlcss
+      
+https://www.odoo.com/documentation/15.0/administration/install/install.html#id10
+      
+      
 1.1. :/#cd /usr/lib/python3/dist-packages/odoo/custom/addons/
       
 1.2. :/usr/lib/python3/dist-packages/odoo/custom/addons#git clone https://github.com/odoo-app-dev/jalaali.git
