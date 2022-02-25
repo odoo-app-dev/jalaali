@@ -17,6 +17,8 @@ Note: To show jalaali dates, you need to change Persian as preference language.
       
       #sudo npm install -g rtlcss
       
+      #npm install jalali-moment -S
+      
 https://www.odoo.com/documentation/15.0/administration/install/install.html#id10
       
       
