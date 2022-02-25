@@ -19,19 +19,22 @@ Note: To show jalaali dates, you need to change Persian as preference language.
       
       #npm install jalali-moment -S
       
+      #pip install jdatetime
+      
 https://www.odoo.com/documentation/15.0/administration/install/install.html#id10
       
       
-1.1. :/#cd /usr/lib/python3/dist-packages/odoo/custom/addons/
+1.1. Go to custom folder of your odoo server
+
+      :/#cd /usr/lib/python3/dist-packages/odoo/custom/addons/
       
-1.2. :/usr/lib/python3/dist-packages/odoo/custom/addons#git clone https://github.com/odoo-app-dev/jalaali.git
-
-    Note: You might also need to install jdatetime </br>
-      #pip install jdatetime</br>
-      (https://pypi.org/project/jdatetime/)
-  
-1.3. edit /etc/odoo/odoo.conf file and add your custom file on 
-
+1.2. Run git clone to recive a copy of jalaali filels on your server
+      :/usr/lib/python3/dist-packages/odoo/custom/addons#git clone https://github.com/odoo-app-dev/jalaali.git
+      
+1.3. Edit the odoo.conf file on the /etc/odoo/odoo.conf path and then add your custom file on 
+      
+      #vi /etc/odoo/odoo.conf
+      (hit i or insert key to start edit)
       Original odoo.conf file:
       [options]
       addons_path = /usr/lib/python3/dist-packages/odoo/addons
@@ -39,8 +42,12 @@ https://www.odoo.com/documentation/15.0/administration/install/install.html#id10
       Edited odoo.conf file:
       [options]
       addons_path = /usr/lib/python3/dist-packages/odoo/addons , /usr/lib/python3/dist-packages/odoo/custom/addons
-
-1.4. #systemctl restart odoo
+      
+      (when finished the editing, firest hit ESC, then enter semicolon, ":", and after that enter "wq" and finaly hit Enter key)
+      
+1.4. After all changes, the odoo service must be restarted
+      
+      #systemctl restart odoo
 
 ## 2- On odoo web application
 
