@@ -53,6 +53,6 @@ https://www.odoo.com/documentation/15.0/administration/install/install.html#id10
 
 #
 
- Fell free to send me email on homayounfar@msn.com if you have any question. 
+ Feel free to send me email on homayounfar@msn.com if you have any question. 
 
 
