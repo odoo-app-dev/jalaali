@@ -26,11 +26,11 @@ https://www.odoo.com/documentation/15.0/administration/install/install.html#id10
       
 1.1. Go to custom folder of your odoo server
 
-      :/#cd /usr/lib/python3/dist-packages/odoo/custom/addons/
+      cd /usr/lib/python3/dist-packages/odoo/custom/addons/
       
 1.2. Run git clone to recive a copy of jalaali filels on your server
 
-      :/usr/lib/python3/dist-packages/odoo/custom/addons#git clone https://github.com/odoo-app-dev/jalaali.git
+      git clone https://github.com/odoo-app-dev/jalaali.git
       
 1.3. Edit the odoo.conf file on the /etc/odoo/odoo.conf path and then add your custom file on 
       
