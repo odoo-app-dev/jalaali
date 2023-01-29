@@ -16,7 +16,7 @@
     # for the full list
     'category': 'Service Desk/Service Desk',
     'application': False,
-    'version': '0.2.1',
+    'version': '16.0.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'web'],
@@ -26,7 +26,7 @@
         # 'security/ir.model.access.csv',
         ],
     'assets': {
-        'web._assets_common_scripts': [
+        'web.assets_backend': [
             'jalaali/static/js/mytime.js',
             'jalaali/static/js/moment-jalaali.js',
             'jalaali/static/js/daterangepicker_fixed.js',
