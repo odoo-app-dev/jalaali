@@ -1,5 +1,5 @@
-# jalaali
-This addon module will help you to show odoo 15 date fields in jalaali format.
+# jalaali (beta)
+This addon module will help you to show odoo 16 date fields in jalaali format.
 
 Thanks Mr. Mohammadi (https://github.com/parodoo/parOdoo) for his hard work to prepare javascript files.
 
