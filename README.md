@@ -30,7 +30,7 @@ https://www.odoo.com/documentation/15.0/administration/install/install.html#id10
       
 1.2. Run git clone to recive a copy of jalaali filels on your server
 
-      git clone https://github.com/odoo-app-dev/jalaali.git
+      git clone https://github.com/gilaneh/odoo_jalaali.git
       
 1.3. Edit the odoo.conf file on the /etc/odoo/odoo.conf path and then add your custom file on 
       
