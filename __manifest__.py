@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "jalaali",
+    'name': "odoo_jalaali",
 
     'summary': """
         It will show the jalaali date for most of date fields""",
@@ -16,7 +16,7 @@
     # for the full list
     'category': 'Service Desk/Service Desk',
     'application': False,
-    'version': '0.2.1',
+    'version': '15.2.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'web'],
