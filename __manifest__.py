@@ -10,7 +10,7 @@
     """,
 
     'author': "Arash Homayounfar",
-    'website': "https://karvazendegi.com/odoo",
+    'website': "https://gilaneh.com/odoo",
 
     # Categories can be used to filter modules in modules listing
     # for the full list
