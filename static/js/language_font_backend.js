@@ -4,6 +4,7 @@ odoo.define('odoo_jalaali.language_font', function (require) {
     var time = require('web.time');
     var session = require('web.session');
     var _t = core._t;
+    console.log(document.querySelector('.o_report_iframe'))
     if(!session.is_frontend){
         console.log(session)
         if(session.user_context.lang == 'fa_IR'){

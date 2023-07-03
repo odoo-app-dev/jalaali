@@ -1,4 +1,4 @@
-# jalaali (0.2.1)
+# odoo_jalaali (1.2.2)
 This addon module will help you to show odoo 15 date fields in jalaali format.
 
 Thanks Mr. Mohammadi (https://github.com/parodoo/parOdoo) for his hard work to prepare javascript files.
@@ -64,47 +64,52 @@ https://www.odoo.com/documentation/15.0/administration/install/install.html#id10
 ## 3- Fix the date on group_by
 
 edit list_renderer.js:
-
+```
       addons/web/static/src/legacy/js/views/list/list_renderer.js 
-
+```
 Line-728: replace const by var for name variable
-
+```
         var name = groupByField.type === "boolean"
             ? (group.value === undefined ? _t('Undefined') : group.value)
             : (group.value === undefined || group.value === false ? _t('Undefined') : group.value);
+```
 line-732: add the following commands
 
-        const regex = /^\d{4}\-\d{2}\-\d{2}$/;
+```        const regex = /^\d{4}\-\d{2}\-\d{2}$/;
         if (name.match(regex) != null){
             name = moment(name, 'YYYY-MM-DD').locale('fa').format('jYYYY/jMM/jDD');
             }
+```
 
 ## 4- Fix inbox message group date
 edit message.js
-
+```
       addons/mail/static/src/models/message/message.js
-
+```
 line-381: inside _computeDateDay() function, replace 
-
+```
       return this.date.format('LL');
-
+```
 to 
-
+```
       if (session.user_context.lang=='fa_IR'){
           return this.date.format('jYYYY jMMMM jDD');
       }else{
           return this.date.format('LL');
       }
 
-
+```
 ## 5- Fix filter based on date issue
-edit owl.js
+### You need to edit `web/static/lib/owl/owl.js`
 
 line-3890:
+```
                 try {
                     isValid = isValidProp(props[propName], propsDef[propName]); 
                     }
+```
 to 
+```
                 try {
                     isValid = isValidProp(props[propName], propsDef[propName]); 
                     if(Widget.name === 'DateTimePicker' || Widget.name === 'DatePicker' ){
@@ -112,6 +117,28 @@ to
                         }
                     }
 
+```
+
+### In newer version 15 releases:
+line-3888:
+```html
+                try {
+                    whyInvalid = whyInvalidProp(props[propName], propsDef[propName]);
+                }
+```
+to:
+```html
+                try {
+                    whyInvalid = whyInvalidProp(props[propName], propsDef[propName]);
+                    if(Widget.name === 'DateTimePicker' || Widget.name === 'DatePicker' ){
+                        whyInvalid = null;
+                        }
+                }
+```
+## 6- Report font
+
+There is iransans_font class in fonts.scss file which it can be use on top of your 
+report template. This way, you can choose on witch report have persian font
 
 #
 

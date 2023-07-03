@@ -16,7 +16,7 @@
     # for the full list
     'category': 'Service Desk/Service Desk',
     'application': False,
-    'version': '1.2.1',
+    'version': '1.2.2',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'web'],
@@ -33,6 +33,8 @@
             'odoo_jalaali/static/js/moment/moment-jalaali.js',
             'odoo_jalaali/static/js/tempusdominus/tempusdominus_fixed.js',
             'odoo_jalaali/static/js/language_font_backend.js',
+            # ('replace', 'web/static/lib/owl/owl.js', 'odoo_jalaali/static/js/owl/owl_fixed.js'),
+            # 'odoo_jalaali/static/js/language_report.js',
 
         ],
         'web._assets_common_styles': [
@@ -51,9 +53,9 @@
             'odoo_jalaali/static/css/fonts.scss',
             ],
         'web.report_assets_common': [
-            # 'odoo_jalaali/static/js/jalaali_class.js',
             'odoo_jalaali/static/css/fonts.scss',
-            ],
+
+        ],
         },
     'license': 'LGPL-3',
 }
