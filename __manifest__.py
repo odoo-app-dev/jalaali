@@ -57,6 +57,7 @@
 ],
         'web.report_assets_common': [
             'odoo_jalaali/static/css/fonts.scss',
+            'odoo_jalaali/static/css/fonts_report.scss',
 
         ],
         },
