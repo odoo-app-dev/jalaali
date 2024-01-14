@@ -23,8 +23,6 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        # 'views/views.xml',
         'views/settings.xml',
         ],
     'assets': {
@@ -32,34 +30,23 @@
             'odoo_jalaali/static/js/jalaali.js',
             'odoo_jalaali/static/js/moment/moment-jalaali.js',
             'odoo_jalaali/static/js/tempusdominus/tempusdominus_fixed.js',
-            # 'odoo_jalaali/static/js/language_font_backend.js',
             ('replace', 'web/static/lib/owl/owl.js', 'odoo_jalaali/static/js/owl/owl_fixed.js'),
-            # 'odoo_jalaali/static/js/language_report.js',
-
         ],
         'web._assets_common_styles': [
-            'odoo_jalaali/static/css/fonts_en.scss',
-
+            'odoo_jalaali/static/css/fonts_fn.scss',
+            # 'odoo_jalaali/static/css/fonts_en.scss',
         ],
         'web.assets_backend': [
             'odoo_jalaali/static/css/fonts_web.scss',
-
-            # 'odoo_jalaali/static/js/language_font.js',
-
-            # ('replace', 'web/static/src/legacy/js/components/datepicker.js', 'odoo_jalaali/static/js/datepicker/datepicker_fixed.js'),
             ],
         'web.assets_frontend': [
-            # 'odoo_jalaali/static/js/jalaali_class.js',
-            # 'odoo_jalaali/static/js/language_font_frontend.js',
             'odoo_jalaali/static/css/fonts_front.scss'
-            # ('before', '/website/static/src/scss/website.scss', 'odoo_jalaali/static/css/fonts_front.scss')
-
-],
+            ],
         'web.report_assets_common': [
-            'odoo_jalaali/static/css/fonts_en.scss',
+            'odoo_jalaali/static/css/fonts_fn.scss',
+            # 'odoo_jalaali/static/css/fonts_en.scss',
             'odoo_jalaali/static/css/fonts_report.scss',
-
-        ],
+            ],
         },
     'license': 'LGPL-3',
 }
