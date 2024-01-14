@@ -16,7 +16,7 @@
     # for the full list
     'category': 'Service Desk/Service Desk',
     'application': False,
-    'version': '1.2.4',
+    'version': '1.2.5',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'web'],
@@ -38,7 +38,7 @@
 
         ],
         'web._assets_common_styles': [
-            'odoo_jalaali/static/css/fonts.scss',
+            'odoo_jalaali/static/css/fonts_en.scss',
 
         ],
         'web.assets_backend': [
@@ -56,7 +56,7 @@
 
 ],
         'web.report_assets_common': [
-            'odoo_jalaali/static/css/fonts.scss',
+            'odoo_jalaali/static/css/fonts_en.scss',
             'odoo_jalaali/static/css/fonts_report.scss',
 
         ],
