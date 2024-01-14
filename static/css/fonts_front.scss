@@ -1,35 +1,6 @@
-
-html[lang="fa-IR"] body,
-html[lang="fa-IR"] .dropdown-item .note-editable .odoo-editor-editable,
-html[lang="fa-IR"] .oe_form_field_html,
-html[lang="fa-IR"] p,
-html[lang="fa-IR"] td,
-html[lang="fa-IR"] th,
-html[lang="fa-IR"] th,
-html[lang="fa-IR"] div,
-html[lang="fa-IR"] .btn,
-html[lang="fa-IR"] .iransans_font div,
-html[lang="fa-IR"] .navbar .nav-link,
-html[lang="fa-IR"] .navbar-brand,
-html[lang="fa-IR"] .navbar-text,
-html[lang="fa-IR"] .navbar a.js_change_lang span,
-html[lang="fa-IR"] .navbar a.o_add_language,
-html[lang="fa-IR"] .o_payment_form .payment_option_name,
-html[lang="fa-IR"] h1,
-html[lang="fa-IR"] h2,
-html[lang="fa-IR"] h3,
-html[lang="fa-IR"] h4,
-html[lang="fa-IR"] h5,
-html[lang="fa-IR"] h6,
-html[lang="fa-IR"] .h1,
-html[lang="fa-IR"] .h2,
-html[lang="fa-IR"] .h3,
-html[lang="fa-IR"] .h4,
-html[lang="fa-IR"] .h5,
-html[lang="fa-IR"] .h6,{
+html[lang="fa-IR"] *:not([class*='fa']),{
 	font-family: IRANSans,"Roboto", "Odoo Unicode Support Noto", sans-serif !important;
 }
-
 
 html[lang="fa-IR"] pre,
 html[lang="fa-IR"] input.o_field_email,

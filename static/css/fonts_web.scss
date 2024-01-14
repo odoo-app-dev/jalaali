@@ -1,46 +1,17 @@
-body.o_rtl *:not([class*='fa']),
-body.o_rtl *:not(.sd_en),
-body.o_rtl .dropdown-item .note-editable .odoo-editor-editable,
-body.o_rtl .oe_form_field_html,
-body.o_rtl p:not([class*='fa']),
-body.o_rtl td *:not([class*='fa']),
-body.o_rtl th:not([class*='fa']),
-body.o_rtl th:not([class*='fa']),
-body.o_rtl div:not([class*='fa']),
-body.o_rtl .btn:not([class*='fa']),
-body.o_rtl span:not([class*='fa']),
-body.o_rtl i:not([class*='fa']),
-body.o_rtl div span:not([class*='fa']),
-body.o_rtl .iransans_font div,
-body.o_rtl .navbar .nav-link,
-body.o_rtl .navbar-brand,
-body.o_rtl .navbar-text,
-body.o_rtl .navbar a.js_change_lang span:not([class*='fa']),
-body.o_rtl .navbar a.o_add_language,
-body.o_rtl .o_payment_form .payment_option_name,
-body.o_rtl h1,
-body.o_rtl h2,
-body.o_rtl h3,
-body.o_rtl h4,
-body.o_rtl h5,
-body.o_rtl h6,
-body.o_rtl .h1,
-body.o_rtl .h2,
-body.o_rtl .h3,
-body.o_rtl .h4,
-body.o_rtl .h5,
-body.o_rtl .h6,{
+body.o_rtl *:not([class*='fa']),{
 	font-family: IRANSans,"Roboto", "Odoo Unicode Support Noto", sans-serif !important;
 }
 
+body.o_rtl .sd_en_all *:not([class*='fa']),
+body.o_rtl .sd_en,
 body.o_rtl pre,
 body.o_rtl input.o_field_email,
 body.o_rtl div.o_field_email,
 body.o_rtl input.o_field_phone,
 body.o_rtl div.o_field_phone,
-body.o_rtl input[name='zip'],
-{
+body.o_rtl input[name='zip'],{
     direction: rtl !important;
+    font-family: "Roboto", "Odoo Unicode Support Noto", sans-serif !important;
 }
 
 
