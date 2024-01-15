@@ -1,0 +1,35 @@
+html[lang="fa_IR"] *:not([class*='fa']),
+html[lang="fa-IR"] *:not([class*='fa']),
+div[data-oe-lang="fa_IR"] *:not([class*='fa']),
+div[data-oe-lang="fa-IR"] *:not([class*='fa']),
+div[lang="fa_IR"] *:not([class*='fa']),
+div[lang="fa-IR"] *:not([class*='fa']),{
+	font-family: IRANSans,"Roboto", "Odoo Unicode Support Noto", sans-serif !important;
+}
+
+html[lang="fa_IR"] pre,
+html[lang="fa_IR"] input.o_field_email,
+html[lang="fa_IR"] div.o_field_email,
+html[lang="fa_IR"] input.o_field_phone,
+html[lang="fa_IR"] div.o_field_phone,
+html[lang="fa_IR"] input[name='zip'],{
+    direction: rtl !important;
+}
+html[lang="fa-IR"] pre,
+html[lang="fa-IR"] input.o_field_email,
+html[lang="fa-IR"] div.o_field_email,
+html[lang="fa-IR"] input.o_field_phone,
+html[lang="fa-IR"] div.o_field_phone,
+html[lang="fa-IR"] input[name='zip'],{
+    direction: rtl !important;
+}
+div[data-oe-lang="fa_IR"] pre,
+div[data-oe-lang="fa_IR"] input.o_field_email,
+div[data-oe-lang="fa_IR"] div.o_field_email,
+div[data-oe-lang="fa_IR"] input.o_field_phone,
+div[data-oe-lang="fa_IR"] div.o_field_phone,
+div[data-oe-lang="fa_IR"] input[name='zip'],{
+    direction: rtl !important;
+}
+
+

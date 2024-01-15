@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="res_users_preferences_form_inherit_jalaali" model="ir.ui.view">
+        <field name="name">res.users.preferences.form</field>
+        <field name="model">res.users</field>
+        <!--        <field name="groups_id" eval="[(4, ref('asset_mng.group_asset_mng_users'), 0)]"/>-->
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tz']" position="after">
+                <field name="fonts"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

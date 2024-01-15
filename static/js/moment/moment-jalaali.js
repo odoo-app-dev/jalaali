@@ -2,30 +2,26 @@
     * https://github.com/jalaali/moment-jalaali/blob/master/build/moment-jalaali.js
 */
 
+//var jalaaliFunction = function(){
 ;(function(){
 
-    /**
-     * Require the module at `name`.
-     *
-     * @param {String} name
-     * @return {Object} exports
-     * @api public
-     */
-    
+/** 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000*/
+
+    /** require *********************************************************************************************************/
     function require(name) {
       var module = require.modules[name];
       if (!module) throw new Error('failed to require "' + name + '"');
-    
+
       if (!('exports' in module) && typeof module.definition === 'function') {
         module.client = module.component = true;
         module.definition.call(this, module.exports = {}, module);
         delete module.definition;
       }
-    
+
       return module.exports;
     }
     
-    /**
+    /** require.modules ***************************************************************************************************
      * Registered modules.
      */
     
@@ -33,7 +29,7 @@
       moment: { exports: moment }
     };
     
-    /**
+    /** require.register ***************************************************************************************************
      * Register module at `name` with callback `definition`.
      *
      * @param {String} name
@@ -47,7 +43,7 @@
       };
     };
     
-    /**
+    /** require.define ***************************************************************************************************
      * Define a module's exports immediately with `exports`.
      *
      * @param {String} name
@@ -60,25 +56,32 @@
         exports: exports
       };
     };
-    
+/** 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000*/
+
+
+/** 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111*/
     require.register("jalaali-js", function (exports, module) {
     /*
       Expose functions.
     */
+//    console.log('66')
+
     module.exports =
-      { toJalaali: toJalaali
-      , toGregorian: toGregorian
-      , isValidJalaaliDate: isValidJalaaliDate
-      , isLeapJalaaliYear: isLeapJalaaliYear
-      , jalaaliMonthLength: jalaaliMonthLength
-      , jalCal: jalCal
-      , j2d: j2d
-      , d2j: d2j
-      , g2d: g2d
-      , d2g: d2g
+      {
+      toJalaali: toJalaali,
+       toGregorian: toGregorian,
+       isValidJalaaliDate: isValidJalaaliDate,
+       isLeapJalaaliYear: isLeapJalaaliYear,
+       jalaaliMonthLength: jalaaliMonthLength,
+       jalCal: jalCal,
+       j2d: j2d,
+       d2j: d2j,
+       g2d: g2d,
+       d2g: d2g,
       }
     
-    /*
+
+    /** toJalaali ***************************************************************************************************
       Converts a Gregorian date to Jalaali.
     */
     function toJalaali(gy, gm, gd) {
@@ -89,15 +92,15 @@
       }
       return d2j(g2d(gy, gm, gd))
     }
-    
-    /*
+
+    /** toGregorian ***************************************************************************************************
       Converts a Jalaali date to Gregorian.
     */
     function toGregorian(jy, jm, jd) {
       return d2g(j2d(jy, jm, jd))
     }
-    
-    /*
+
+    /** isValidJalaaliDate ****************************************************************************************
       Checks whether a Jalaali date is valid or not.
     */
     function isValidJalaaliDate(jy, jm, jd) {
@@ -106,14 +109,14 @@
               jd >= 1 && jd <= jalaaliMonthLength(jy, jm)
     }
     
-    /*
+    /** isLeapJalaaliYear ****************************************************************************************
       Is this a leap year or not?
     */
     function isLeapJalaaliYear(jy) {
       return jalCal(jy).leap === 0
     }
     
-    /*
+    /** jalaaliMonthLength ****************************************************************************************
       Number of days in a given month in a Jalaali year.
     */
     function jalaaliMonthLength(jy, jm) {
@@ -123,7 +126,7 @@
       return 29
     }
     
-    /*
+    /** jalCal ****************************************************************************************
       This function determines if the Jalaali (Persian) year is
       leap (366-day long) or is the common year (365 days), and
       finds the day in March (Gregorian calendar) of the first
@@ -194,7 +197,7 @@
               }
     }
     
-    /*
+    /** j2d ****************************************************************************************
       Converts a date of the Jalaali calendar to the Julian Day number.
     
       @param jy Jalaali year (1 to 3100)
@@ -207,7 +210,7 @@
       return g2d(r.gy, 3, r.march) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1
     }
     
-    /*
+    /** d2j ****************************************************************************************
       Converts the Julian Day number to a date in the Jalaali calendar.
     
       @param jdn Julian Day number
@@ -216,7 +219,9 @@
         jm: Jalaali month (1 to 12)
         jd: Jalaali day (1 to 29/31)
     */
+    // Arash: all date fields uses this
     function d2j(jdn) {
+
       var gy = d2g(jdn).gy // Calculate Gregorian year (gy).
         , jy = gy - 621
         , r = jalCal(jy)
@@ -249,13 +254,14 @@
       }
       jm = 7 + div(k, 30)
       jd = mod(k, 30) + 1
+
       return  { jy: jy
               , jm: jm
               , jd: jd
               }
     }
     
-    /*
+    /** g2d ****************************************************************************************
       Calculates the Julian Day number from Gregorian or Julian
       calendar dates. This integer number corresponds to the noon of
       the date (i.e. 12 hours of Universal Time).
@@ -275,7 +281,7 @@
       return d
     }
     
-    /*
+    /** d2g ****************************************************************************************
       Calculates Gregorian and Julian calendar dates from the Julian Day number
       (jdn) for the period since jdn=-34839655 (i.e. the year -100100 of both
       calendars) to some millions years ahead of the present.
@@ -304,41 +310,49 @@
               }
     }
     
-    /*
+    /** div ****************************************************************************************
       Utility helper functions.
     */
-    
     function div(a, b) {
       return ~~(a / b)
     }
-    
+
+    /** mod ****************************************************************************************
+      Utility helper functions.
+    */
     function mod(a, b) {
       return a - ~~(a / b) * b
     }
     })
+
+/** 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111*/
+
+/** 2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222*/
+
     require.register("moment-jalaali", function (exports, module) {
-    
+//    console.log('327')
+
     module.exports = jMoment
-    
+
     var moment = require('moment')
-      , jalaali = require('jalaali-js')
-    
+    var jalaali = require('jalaali-js')
+
     /************************************
         Constants
     ************************************/
-    
-    var formattingTokens = /(\[[^\[]*\])|(\\)?j(Mo|MM?M?M?|Do|DDDo|DD?D?D?|w[o|w]?|YYYYY|YYYY|YY|gg(ggg?)?|)|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|mm?|ss?|SS?S?|X|zz?|ZZ?|.)/g
-      , localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS?|LL?L?L?|l{1,4})/g
-    
-      , parseTokenOneOrTwoDigits = /\d\d?/
-      , parseTokenOneToThreeDigits = /\d{1,3}/
-      , parseTokenThreeDigits = /\d{3}/
-      , parseTokenFourDigits = /\d{1,4}/
-      , parseTokenSixDigits = /[+\-]?\d{1,6}/
-      , parseTokenWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i
-      , parseTokenTimezone = /Z|[\+\-]\d\d:?\d\d/i
-      , parseTokenT = /T/i
-      , parseTokenTimestampMs = /[\+\-]?\d+(\.\d{1,3})?/
+
+var formattingTokens = /(\[[^\[]*\])|(\\)?j(Mo|MM?M?M?|Do|DDDo|DD?D?D?|w[o|w]?|YYYYY|YYYY|YY|gg(ggg?)?|)|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|mm?|ss?|SS?S?|X|zz?|ZZ?|.)/g
+  , localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS?|LL?L?L?|l{1,4})/g
+
+  , parseTokenOneOrTwoDigits = /\d\d?/
+  , parseTokenOneToThreeDigits = /\d{1,3}/
+  , parseTokenThreeDigits = /\d{3}/
+  , parseTokenFourDigits = /\d{1,4}/
+  , parseTokenSixDigits = /[+\-]?\d{1,6}/
+  , parseTokenWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i
+  , parseTokenTimezone = /Z|[\+\-]\d\d:?\d\d/i
+  , parseTokenT = /T/i
+  , parseTokenTimestampMs = /[\+\-]?\d+(\.\d{1,3})?/
       , symbolMap = {
         '1': '۱',
         '2': '۲',
@@ -363,20 +377,18 @@
         '۹': '9',
         '۰': '0'
       }
-    
-    
       , unitAliases =
         { jm: 'jmonth'
         , jmonths: 'jmonth'
         , jy: 'jyear'
         , jyears: 'jyear'
         }
-    
+
       , formatFunctions = {}
-    
+
       , ordinalizeTokens = 'DDD w M D'.split(' ')
       , paddedTokens = 'M D w'.split(' ')
-    
+
       , formatTokenFunctions =
         { jM: function () {
             return this.jMonth() + 1
@@ -415,35 +427,45 @@
             return leftZeroFill(this.jWeekYear(), 5)
           }
         }
-    
+//    console.log('423', formatTokenFunctions)
+
+    /** padToken ****************************************************************************************/
     function padToken(func, count) {
       return function (a) {
         return leftZeroFill(func.call(this, a), count)
       }
     }
+
+    /** ordinalizeToken ****************************************************************************************/
     function ordinalizeToken(func, period) {
       return function (a) {
         return this.localeData().ordinal(func.call(this, a), period)
       }
     }
-    
+
+    /** function ****************************************************************************************/
     (function () {
+
       var i
       while (ordinalizeTokens.length) {
         i = ordinalizeTokens.pop()
         formatTokenFunctions['j' + i + 'o'] = ordinalizeToken(formatTokenFunctions['j' + i], i)
+//        console.log('446', formatTokenFunctions)
       }
       while (paddedTokens.length) {
         i = paddedTokens.pop()
         formatTokenFunctions['j' + i + i] = padToken(formatTokenFunctions['j' + i], 2)
+//        console.log('450', formatTokenFunctions)
       }
       formatTokenFunctions.jDDDD = padToken(formatTokenFunctions.jDDD, 3)
+//      console.log('452', formatTokenFunctions.jDDDD)
     }())
-    
+
     /************************************
         Helpers
     ************************************/
-    
+
+    /** extend ****************************************************************************************/
     function extend(a, b) {
       var key
       for (key in b)
@@ -451,18 +473,20 @@
           a[key] = b[key]
       return a
     }
-    
+
+    /** leftZeroFill ****************************************************************************************/
     function leftZeroFill(number, targetLength) {
       var output = number + ''
       while (output.length < targetLength)
         output = '0' + output
       return output
     }
-    
+
+    /** isArray ****************************************************************************************/
     function isArray(input) {
       return Object.prototype.toString.call(input) === '[object Array]'
     }
-    
+
     // function compareArrays(array1, array2) {
     //   var len = Math.min(array1.length, array2.length)
     //     , lengthDiff = Math.abs(array1.length - array2.length)
@@ -473,7 +497,8 @@
     //       diffs += 1
     //   return diffs + lengthDiff
     // }
-    
+
+    /** normalizeUnits ****************************************************************************************/
     function normalizeUnits(units) {
       if (units) {
         var lowered = units.toLowerCase()
@@ -481,7 +506,8 @@
       }
       return units
     }
-    
+
+    /** setDate ****************************************************************************************/
     function setDate(m, year, month, date) {
       var d = m._d
       if (isNaN(year)) {
@@ -497,13 +523,15 @@
             d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds())
       }
     }
-    
+
+    /** objectCreate ****************************************************************************************/
     function objectCreate(parent) {
       function F() {}
       F.prototype = parent
       return new F()
     }
-    
+
+    /** getPrototypeOf ****************************************************************************************/
     function getPrototypeOf(object) {
       if (Object.getPrototypeOf)
         return Object.getPrototypeOf(object)
@@ -512,7 +540,7 @@
       else
         return object.constructor.prototype
     }
-    
+
     /************************************
         Languages
     ************************************/
@@ -533,7 +561,7 @@
       , jMonths: function (m) {
           return this._jMonths[m.jMonth()]
         }
-    
+
       , _jMonthsShort:  [ 'Far'
                         , 'Ord'
                         , 'Kho'
@@ -550,7 +578,7 @@
       , jMonthsShort: function (m) {
           return this._jMonthsShort[m.jMonth()]
         }
-    
+
       , jMonthsParse: function (monthName) {
           var i
             , mom
@@ -571,20 +599,20 @@
         }
       }
     )
-    
+
     /************************************
         Formatting
     ************************************/
-    
+    /** makeFormatFunction ****************************************************************************************/
     function makeFormatFunction(format) {
       var array = format.match(formattingTokens)
         , length = array.length
         , i
-    
+
       for (i = 0; i < length; i += 1)
         if (formatTokenFunctions[array[i]])
           array[i] = formatTokenFunctions[array[i]]
-    
+
       return function (mom) {
         var output = ''
         for (i = 0; i < length; i += 1)
@@ -592,11 +620,11 @@
         return output
       }
     }
-    
+
     /************************************
         Parsing
     ************************************/
-    
+    /** getParseRegexForToken ****************************************************************************************/
     function getParseRegexForToken(token, config) {
       switch (token) {
       case 'jDDDD':
@@ -662,11 +690,12 @@
         return new RegExp(token.replace('\\', ''))
       }
     }
-    
+
+    /** addTimeToArrayFromToken **************************************************************************************/
     function addTimeToArrayFromToken(token, input, config) {
       var a
         , datePartArray = config._a
-    
+
       switch (token) {
       case 'jM':
       case 'jMM':
@@ -697,14 +726,15 @@
       if (input == null)
         config._isValid = false
     }
-    
+
+    /** dateFromArray **************************************************************************************/
     function dateFromArray(config) {
       var g
         , j
         , jy = config._a[0]
         , jm = config._a[1]
         , jd = config._a[2]
-    
+
       if ((jy == null) && (jm == null) && (jd == null))
         return [0, 0, 1]
       jy = jy != null ? jy : 0
@@ -714,6 +744,9 @@
         config._isValid = false
       g = toGregorian(jy, jm, jd)
       j = toJalaali(g.gy, g.gm, g.gd)
+      // Arash: 1- edit mode 2- tack from date peaker 3- onchange date field(click somewhere else)
+      // Arash: not in page refresh, not in page save.
+//      console.log('740 j', j)
       if (isNaN(g.gy))
         config._isValid = false
       config._jDiff = 0
@@ -725,7 +758,8 @@
         config._jDiff += 1
       return [g.gy, g.gm, g.gd]
     }
-    
+
+    /** makeDateFromStringAndFormat ***********************************************************************************/
     function makeDateFromStringAndFormat(config) {
       /// Babak
       /// config._f can be a function
@@ -736,9 +770,9 @@
         , i
         , token
         , parsedInput
-    
+
       config._a = []
-    
+
       for (i = 0; i < len; i += 1) {
         token = tokens[i]
         parsedInput = (getParseRegexForToken(token, config).exec(string) || [])[0]
@@ -751,7 +785,8 @@
         config._il = string
       return dateFromArray(config)
     }
-    
+
+    /** makeDateFromStringAndArray ***********************************************************************************/
     function makeDateFromStringAndArray(config, utc) {
       var len = config._f.length
         , i
@@ -760,21 +795,21 @@
         , bestMoment
         , currentScore
         , scoreToBeat
-    
+
       if (len === 0) {
         return makeMoment(new Date(NaN))
       }
-    
+
       for (i = 0; i < len; i += 1) {
         /// Babak
         /// format can be a function!
-        /// format = config._f[i]
+//        format = config._f[i]
         format = typeof config._f[i]=='function'? config._f[i]():config._f[i];
         currentScore = 0
         tempMoment = makeMoment(config._i, format, config._l, config._strict, utc)
-    
+
         if (!tempMoment.isValid()) continue
-    
+
         // currentScore = compareArrays(tempMoment._a, tempMoment.toArray())
         currentScore += tempMoment._jDiff
         if (tempMoment._il)
@@ -784,11 +819,13 @@
           bestMoment = tempMoment
         }
       }
-    
+
       return bestMoment
     }
-    
+
+    /** removeParsedTokens ***********************************************************************************/
     function removeParsedTokens(config) {
+
       var string = config._i + ''
         , input = ''
         , format = ''
@@ -797,31 +834,35 @@
         , i
         , match
         , parsed
-    
+
       for (i = 0; i < len; i += 1) {
         match = array[i]
         parsed = (getParseRegexForToken(match, config).exec(string) || [])[0]
         if (parsed)
           string = string.slice(string.indexOf(parsed) + parsed.length)
+          // Arash: it adds // to the format!!!
         if (!(formatTokenFunctions[match] instanceof Function)) {
           format += match
           if (parsed)
             input += parsed
         }
       }
+      // Arash: it adds // to the format!!!
+//      config._i = input.replace("//","")
+//      config._f = format.replace("//","")
       config._i = input
       config._f = format
     }
-    
+
     /************************************
         Week of Year
     ************************************/
-    
+    /** jWeekOfYear ***********************************************************************************/
     function jWeekOfYear(mom, firstDayOfWeek, firstDayOfWeekOfYear) {
       var end = firstDayOfWeekOfYear - firstDayOfWeek
         , daysToDayOfWeek = firstDayOfWeekOfYear - mom.day()
         , adjustedMoment
-    
+
       if (daysToDayOfWeek > end) {
         daysToDayOfWeek -= 7
       }
@@ -833,21 +874,22 @@
               , year: adjustedMoment.jYear()
               }
     }
-    
+
     /************************************
         Top Level Functions
     ************************************/
     var maxTimestamp = 57724432199999
-    
+
+    /** makeMoment ***********************************************************************************/
     function makeMoment(input, format, lang, strict, utc) {
       if (typeof lang === 'boolean') {
         strict = lang
         lang = undefined
       }
-    
+
       if (format && typeof format === 'string')
         format = fixFormat(format, moment)
-    
+
       var config =
           { _i: input
           , _f: format
@@ -894,16 +936,26 @@
         /// for date-picker maxDate values.
         //jm._isValid = false
       }
+//      if(jm._i != null && typeof jm._i == "string"){
+//          jm._i = jm._i.replace("-//","");
+//      }
+//      if(jm._f != null && typeof jm._f == "string"){
+//          jm._f = jm._f.replace("-//","");
+//      }
+//      console.log(jm);
       return jm
     }
-    
+
+    /** jMoment ***********************************************************************************/
     function jMoment(input, format, lang, strict) {
       return makeMoment(input, format, lang, strict, false)
     }
-    
+
+    /** ----- extend(jMoment, moment)  -------------------------------------------        VARIABLE     ----*/
     extend(jMoment, moment)
     jMoment.fn = objectCreate(moment.fn)
-    
+
+    /** jMoment.utc ***********************************************************************************/
     jMoment.utc = function (input, format, lang, strict) {
 
       if (moment.isMoment(input)){
@@ -913,15 +965,16 @@
 
       return makeMoment(input, format, lang, strict, true)
     }
-    
+
+    /** jMoment.unix ***********************************************************************************/
     jMoment.unix = function (input) {
       return makeMoment(input * 1000)
     }
-    
+
     /************************************
         jMoment Prototype
     ************************************/
-    
+   /** fixFormat ***********************************************************************************/
     function fixFormat(format, _moment) {
       var i = 5
       var replace = function (input) {
@@ -933,12 +986,13 @@
       }
       return format
     }
-    
+
+   /** jMoment.fn.format ***********************************************************************************/
     jMoment.fn.format = function (format) {
-    
+//        debugger;
       if (format) {
         format = fixFormat(format, this)
-    
+
         if (!formatFunctions[format]) {
           formatFunctions[format] = makeFormatFunction(format)
         }
@@ -946,23 +1000,28 @@
       }
       return moment.fn.format.call(this, format)
     }
-    
+
+   /** jMoment.fn.jYear ***********************************************************************************/
     jMoment.fn.jYear = function (input) {
       var lastDay
         , j
         , g
       if (typeof input === 'number') {
+
+//      Arash: datepeaker uses this
         j = toJalaali(this.year(), this.month(), this.date())
         lastDay = Math.min(j.jd, jMoment.jDaysInMonth(input, j.jm))
         g = toGregorian(input, j.jm, lastDay)
         setDate(this, g.gy, g.gm, g.gd)
         moment.updateOffset(this)
+
         return this
       } else {
         return toJalaali(this.year(), this.month(), this.date()).jy
       }
     }
-    
+
+   /** jMoment.fn.jMonth ***********************************************************************************/
     jMoment.fn.jMonth = function (input) {
       var lastDay
         , j
@@ -989,7 +1048,8 @@
         return toJalaali(this.year(), this.month(), this.date()).jm
       }
     }
-    
+
+   /** jMoment.fn.jDate ***********************************************************************************/
     jMoment.fn.jDate = function (input) {
       var j
         , g
@@ -1003,22 +1063,23 @@
         return toJalaali(this.year(), this.month(), this.date()).jd
       }
     }
-    
+
+   /** jMoment.fn.jDayOfYear ***********************************************************************************/
     jMoment.fn.jDayOfYear = function (input) {
       var dayOfYear = Math.round((jMoment(this).startOf('day') - jMoment(this).startOf('jYear')) / 864e5) + 1
       return input == null ? dayOfYear : this.add(input - dayOfYear, 'd')
     }
-    
+   /** jMoment.fn.jWeek ***********************************************************************************/
     jMoment.fn.jWeek = function (input) {
       var week = jWeekOfYear(this, this.localeData()._week.dow, this.localeData()._week.doy).week
       return input == null ? week : this.add((input - week) * 7, 'd')
     }
-    
+   /** jMoment.fn.jWeekYear ***********************************************************************************/
     jMoment.fn.jWeekYear = function (input) {
       var year = jWeekOfYear(this, this.localeData()._week.dow, this.localeData()._week.doy).year
       return input == null ? year : this.add(input - year, 'y')
     }
-    
+   /** jMoment.fn.add ***********************************************************************************/
     jMoment.fn.add = function (val, units) {
       var temp
       if (units !== null && !isNaN(+units)) {
@@ -1027,7 +1088,7 @@
         units = temp
       }
       // Babak
-      // This line causes issues 
+      // This line causes issues
       // because it lowercases units and further call to
       // original moment function will be disturbed.
       // units = normalizeUnits(units)
@@ -1044,7 +1105,7 @@
       }
       return this
     }
-    
+   /** jMoment.fn.subtract ***********************************************************************************/
     jMoment.fn.subtract = function (val, units) {
       var temp
       if (units !== null && !isNaN(+units)) {
@@ -1067,7 +1128,7 @@
       }
       return this
     }
-    
+   /** jMoment.fn.startOf ***********************************************************************************/
     jMoment.fn.startOf = function (units) {
       var _units = normalizeUnits(units)
       if (_units === 'jyear' || _units === 'jmonth') {
@@ -1084,7 +1145,7 @@
         return moment.fn.startOf.call(this, units)
       }
     }
-    
+   /** jMoment.fn.endOf ***********************************************************************************/
     jMoment.fn.endOf = function (units) {
       units = normalizeUnits(units)
       if (units === undefined || units === 'milisecond') {
@@ -1092,7 +1153,7 @@
       }
       return this.startOf(units).add(1, (units === 'isoweek' ? 'week' : units)).subtract(1, 'ms')
     }
-    
+   /** jMoment.fn.isSame ***********************************************************************************/
     jMoment.fn.isSame = function (other, units) {
       var _units = normalizeUnits(units)
       if (_units === 'jyear' || _units === 'jmonth') {
@@ -1103,21 +1164,24 @@
       }
       return moment.fn.isSame.call(this, other, units)
     }
-    
+   /** jMoment.fn.clone ***********************************************************************************/
     jMoment.fn.clone = function () {
       return jMoment(this)
     }
-    
-    jMoment.fn.jYears = jMoment.fn.jYear
-    jMoment.fn.jMonths = jMoment.fn.jMonth
-    jMoment.fn.jDates = jMoment.fn.jDate
-    jMoment.fn.jWeeks = jMoment.fn.jWeek
-    
+
+   /**  *************************************************************   VARIABLE   **********************/
+// Arash: comment of this 4 lines had no effect
+//    jMoment.fn.jYears = jMoment.fn.jYear
+//    jMoment.fn.jMonths = jMoment.fn.jMonth
+//    jMoment.fn.jDates = jMoment.fn.jDate
+//    jMoment.fn.jWeeks = jMoment.fn.jWeek
+
     /************************************
         jMoment Statics
     ************************************/
-    
+   /** jMoment.jDaysInMonth ***********************************************************************************/
     jMoment.jDaysInMonth = function (year, month) {
+
       year += div(month, 12)
       month = mod(month, 12)
       if (month < 0) {
@@ -1134,11 +1198,11 @@
         return 29
       }
     }
-    
+   /** jMoment.jIsLeapYear ******************************************************************       VARIABLE      **********/
     jMoment.jIsLeapYear = jalaali.isLeapJalaaliYear
-    
+
+   /** jMoment.fixPersian ***********************************************************************************/
     jMoment.fixPersian = function(){
-      //console.info("fixPersian1");
       fa = moment.localeData('fa');
       if (fa && typeof fa.$fixed =='undefined'){
         fa.$fixed = true;
@@ -1146,7 +1210,10 @@
         fa.preparse = function(s){return s};
       }
     }
+
+   /** jMoment.loadPersian ***********************************************************************************/
     jMoment.loadPersian = function (args) {
+
       var usePersianDigits =  args !== undefined && args.hasOwnProperty('usePersianDigits') ? args.usePersianDigits : false
       var dialect =  args !== undefined && args.hasOwnProperty('dialect') ? args.dialect : 'persian'
       moment.locale('fa')
@@ -1238,16 +1305,16 @@
         }
       )
     }
-    
-    
+
+   /** jMoment.jConvert ***********************************************************************************/
     jMoment.jConvert =  { toJalaali: toJalaali
                         , toGregorian: toGregorian
                         }
-    
+
     /************************************
         Jalaali Conversion
     ************************************/
-    
+   /** toJalaali ***********************************************************************************/
     function toJalaali(gy, gm, gd) {
       try {
         var j = jalaali.toJalaali(gy, gm + 1, gd)
@@ -1261,7 +1328,8 @@
         }
       }
     }
-    
+
+   /** toGregorian ***********************************************************************************/
     function toGregorian(jy, jm, jd) {
       try {
         var g = jalaali.toGregorian(jy, jm + 1, jd)
@@ -1275,25 +1343,41 @@
         }
       }
     }
-    
-    /*
+
+   /** jMoment.fn.jDate ***********************************************************************************
       Utility helper functions.
     */
-    
     function div(a, b) {
       return ~~(a / b)
     }
-    
+
+   /** mod ***********************************************************************************/
     function mod(a, b) {
       return a - ~~(a / b) * b
     }
     });
-    
+
+/** 2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222*/
+
+/** 333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333*/
+//        console.log('1336')
+
     if (typeof exports == "object") {
-      module.exports = require("moment-jalaali");
-    } else if (typeof define == "function" && define.amd) {
-      define([], function(){ return require("moment-jalaali"); });
-    } else {
-      this["moment"] = require("moment-jalaali");
-    }
-    })();
+        module.exports = require("moment-jalaali");
+//        console.log('(typeof exports == "object")')
+        }
+    else if (typeof define == "function" && define.amd) {
+        define([], function(){ return require("moment-jalaali"); });
+//        console.log('(typeof define == "function" && define.amd)')
+
+        }
+    else {
+        this["moment"] = require("moment-jalaali");
+//        console.log('1359')
+//        console.log(this["moment"])
+
+        }
+/** 333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333*/
+
+})();
+

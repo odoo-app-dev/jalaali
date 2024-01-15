@@ -4,12 +4,6 @@
  * Licensed under MIT (https://github.com/tempusdominus/bootstrap-3/blob/master/LICENSE)
  */
 
-/*
-    parOdoo "Persian Calendar"
-    This is actuatlly a modified version of the original library that is fixed for
-    Persian Calendar support. 
-*/
-
 if (typeof jQuery === 'undefined') {
   throw new Error('Tempus Dominus Bootstrap4\'s requires jQuery. jQuery must be included before Tempus Dominus Bootstrap4\'s JavaScript.');
 }
@@ -51,7 +45,14 @@ var DateTimePicker = function ($, moment) {
         EVENT_KEY = '.' + DATA_KEY,
         DATA_API_KEY = '.data-api',
         Selector = {
-        DATA_TOGGLE: '[data-toggle="' + DATA_KEY + '"]'
+        // /!\ ODOO PATCH: ensure the datetimepickers can be toggled only after
+        // the Odoo lazy loader finished loading all lazy scripts. Another
+        // solution could have been to temporarily removing the data-toggle
+        // attributes during lazyloading but that would not have been stable as
+        // custom code could search for data-toggle elements while the lazy
+        // loading is being performed. Without this, clicking too soon on a
+        // datetimepicker would not use the right format and UI options.
+        DATA_TOGGLE: 'body:not(.o_lazy_js_waiting) [data-toggle="' + DATA_KEY + '"]'
     },
         ClassName = {
         INPUT: NAME + '-input'
@@ -496,7 +497,7 @@ var DateTimePicker = function ($, moment) {
         DateTimePicker.prototype._change = function _change(e) {
             var val = $(e.target).val().trim(),
                 parsedDate = val ? this._parseInputDate(val) : null;
-            this._setValue(parsedDate);
+            this._setValue(parsedDate, 0); // Odoo FIX: if a valid date is replaced by an invalid one, lib will crash, see https://github.com/tempusdominus/bootstrap-4/issues/223
             e.stopImmediatePropagation();
             return false;
         };
@@ -1018,7 +1019,6 @@ var DateTimePicker = function ($, moment) {
                     _maxDate = this.getMoment();
                 }
             }
-            
 
             var parsedDate = this._parseInputDate(_maxDate);
 
@@ -1113,7 +1113,6 @@ var DateTimePicker = function ($, moment) {
             if (arguments.length === 0) {
                 return this._options.locale;
             }
-            //debugger;
 
             if (!moment.localeData(_locale)) {
                 throw new TypeError('locale() locale ' + _locale + ' is not loaded from moment locales!');
@@ -1944,19 +1943,11 @@ var TempusDominusBootstrap4 = function ($) {
         };
 
         TempusDominusBootstrap4.prototype._fillMonths = function _fillMonths() {
-
-            /// parOdoo fixup 
-            ///
-            var _y = this.getCalendar()+'y'
-            var _M = this.getCalendar()+'M';
-            var _MMM = this.getCalendar()+'MMMM';
-            // var spans = [],
-            //     monthsShort = this._viewDate.clone().startOf('y').startOf('d');
             var spans = [],
-                monthsShort = this._viewDate.clone().startOf(_y).startOf('d');
-            while (monthsShort.isSame(this._viewDate, _y)) {
-                spans.push($('<span>').attr('data-action', 'selectMonth').addClass('month').text(monthsShort.format(_MMM)));
-                monthsShort.add(1, _M);
+                monthsShort = this._viewDate.clone().startOf('y').startOf('d');
+            while (monthsShort.isSame(this._viewDate, 'y')) {
+                spans.push($('<span>').attr('data-action', 'selectMonth').addClass('month').text(monthsShort.format('MMM')));
+                monthsShort.add(1, 'M');
             }
             this.widget.find('.datepicker-months td').empty().append(spans);
         };
@@ -1976,22 +1967,16 @@ var TempusDominusBootstrap4 = function ($) {
             if (!this._isValid(this._viewDate.clone().subtract(1, 'y'), 'y')) {
                 monthsViewHeader.eq(0).addClass('disabled');
             }
-            var _headerFormat = this.getCalendar()+'YYYY';
 
-            //monthsViewHeader.eq(1).text(this._viewDate.year());
-            monthsViewHeader.eq(1).text(this._viewDate.format(_headerFormat));
+            monthsViewHeader.eq(1).text(this._viewDate.year());
 
             if (!this._isValid(this._viewDate.clone().add(1, 'y'), 'y')) {
                 monthsViewHeader.eq(2).addClass('disabled');
             }
 
-            /// parOdoo fixup
             months.removeClass('active');
-            var _y = this.getCalendar()+"y";
-            if (this._getLastPickedDate().isSame(this._viewDate, _y) && !this.unset) {
-                active_month = this._getLastPickedDate().format(this.getCalendar()+'M')-1;
-                //months.eq(this._getLastPickedDate().month()).addClass('active');
-                months.eq(active_month).addClass('active');
+            if (this._getLastPickedDate().isSame(this._viewDate, 'y') && !this.unset) {
+                months.eq(this._getLastPickedDate().month()).addClass('active');
             }
 
             months.each(function (index) {
@@ -2026,24 +2011,17 @@ var TempusDominusBootstrap4 = function ($) {
             if (this._options.minDate && this._options.minDate.isAfter(startYear, 'y')) {
                 yearsViewHeader.eq(0).addClass('disabled');
             }
-            
-            _YYYY = this.getCalendar()+"YYYY";
-            _y = this.getCalendar()+"y";
-            /// parOdoo fixup:
-            //yearsViewHeader.eq(1).text(startYear.year() + '-' + endYear.year());
-            yearsViewHeader.eq(1).text(startYear.format(_YYYY) + '-' + endYear.format(_YYYY));
+
+            yearsViewHeader.eq(1).text(startYear.year() + '-' + endYear.year());
 
             if (this._options.maxDate && this._options.maxDate.isBefore(endYear, 'y')) {
                 yearsViewHeader.eq(2).addClass('disabled');
             }
 
-            //html += '<span data-action="selectYear" class="year old' + (!this._isValid(startYear, 'y') ? ' disabled' : '') + '">' + (startYear.year() - 1) + '</span>';
-            html += '<span data-action="selectYear" class="year old' + (!this._isValid(startYear, 'y') ? ' disabled' : '') + '">' + (startYear.format(_YYYY) - 1) + '</span>';
+            html += '<span data-action="selectYear" class="year old' + (!this._isValid(startYear, 'y') ? ' disabled' : '') + '">' + (startYear.year() - 1) + '</span>';
             while (!startYear.isAfter(endYear, 'y')) {
-                //html += '<span data-action="selectYear" class="year' + (startYear.isSame(this._getLastPickedDate(), 'y') && !this.unset ? ' active' : '') + (!this._isValid(startYear, 'y') ? ' disabled' : '') + '">' + startYear.year() + '</span>';
-                //startYear.add(1, 'y');
-                html += '<span data-action="selectYear" class="year' + (startYear.isSame(this._getLastPickedDate(), 'y') && !this.unset ? ' active' : '') + (!this._isValid(startYear, 'y') ? ' disabled' : '') + '">' + startYear.format(_YYYY) + '</span>';
-                startYear.add(1,_y );
+                html += '<span data-action="selectYear" class="year' + (startYear.isSame(this._getLastPickedDate(), 'y') && !this.unset ? ' active' : '') + (!this._isValid(startYear, 'y') ? ' disabled' : '') + '">' + startYear.year() + '</span>';
+                startYear.add(1, 'y');
             }
             html += '<span data-action="selectYear" class="year old' + (!this._isValid(startYear, 'y') ? ' disabled' : '') + '">' + startYear.year() + '</span>';
 
@@ -2112,13 +2090,7 @@ var TempusDominusBootstrap4 = function ($) {
             daysViewHeader.eq(2).find('span').attr('title', this._options.tooltips.nextMonth);
 
             daysView.find('.disabled').removeClass('disabled');
-
-            var _dayViewHeaderFormat = this.getCalendar()=='j'
-             ? 'jMMMM jYYYY'
-             : this._options.dayViewHeaderFormat
-
-
-            daysViewHeader.eq(1).text(this._viewDate.format(_dayViewHeaderFormat));
+            daysViewHeader.eq(1).text(this._viewDate.format(this._options.dayViewHeaderFormat));
 
             if (!this._isValid(this._viewDate.clone().subtract(1, 'M'), 'M')) {
                 daysViewHeader.eq(0).addClass('disabled');
@@ -2126,11 +2098,12 @@ var TempusDominusBootstrap4 = function ($) {
             if (!this._isValid(this._viewDate.clone().add(1, 'M'), 'M')) {
                 daysViewHeader.eq(2).addClass('disabled');
             }
-            var _M = this.getCalendar()+'M';
 
-            currentDate = this._viewDate.clone().startOf(_M).startOf('w').startOf('d');
             // !! ODOO FIX START !!
             var now = this.getMoment();
+            // currentDate = this._viewDate.clone().startOf('M').startOf('w').startOf('d');
+            // avoid issue of safari + DST at midnight
+            currentDate = this._viewDate.clone().startOf('M').startOf('w').add(12, 'hours');
             // !! ODOO FIX END !!
 
             for (i = 0; i < 42; i++) {
@@ -2143,10 +2116,10 @@ var TempusDominusBootstrap4 = function ($) {
                     html.push(row);
                 }
                 clsName = '';
-                if (currentDate.isBefore(this._viewDate, _M)) {
+                if (currentDate.isBefore(this._viewDate, 'M')) {
                     clsName += ' old';
                 }
-                if (currentDate.isAfter(this._viewDate, _M)) {
+                if (currentDate.isAfter(this._viewDate, 'M')) {
                     clsName += ' new';
                 }
                 if (this._options.allowMultidate) {
@@ -2172,12 +2145,7 @@ var TempusDominusBootstrap4 = function ($) {
                 if (currentDate.day() === 0 || currentDate.day() === 6) {
                     clsName += ' weekend';
                 }
-                // parOdoo fixup for Persian Calendar
-                // This line display date:
-                //row.append('<td data-action="selectDay" data-day="' + currentDate.format('L') + '" class="day' + clsName + '">' + currentDate.date() + '</td>');
-                var _d = this.getCalendar()+"D";
-                row.append('<td data-action="selectDay" data-day="' + 
-                    currentDate.format('L') +'" data-date="'+currentDate.format("YYYY-MM-DD") +'" class="day' + clsName + '">' + currentDate.format(_d) + '</td>');
+                row.append('<td data-action="selectDay" data-day="' + currentDate.format('L') + '" class="day' + clsName + '">' + currentDate.date() + '</td>');
                 currentDate.add(1, 'd');
             }
 
@@ -2289,7 +2257,6 @@ var TempusDominusBootstrap4 = function ($) {
                     }
                 case 'previous':
                     {
-                        //debugger;
                         var _navFnc = DateTimePicker.DatePickerModes[this.currentViewMode].NAV_FUNCTION;
                         this._viewDate.subtract(DateTimePicker.DatePickerModes[this.currentViewMode].NAV_STEP, _navFnc);
                         this._fillDate();
@@ -2301,18 +2268,8 @@ var TempusDominusBootstrap4 = function ($) {
                     break;
                 case 'selectMonth':
                     {
-
                         var month = $(e.target).closest('tbody').find('span').index($(e.target));
-                        /// parOdoo fixup
-                        /// if calendar is jalali use jMonth
-                        if (this.getCalendar()=='j' && typeof this._viewDate.jMonth=='function')
-                        {
-                            this._viewDate.jMonth(month);
-                        }
-                        else
-                        {
-                            this._viewDate.month(month);
-                        }
+                        this._viewDate.month(month);
                         if (this.currentViewMode === DateTimePicker.MinViewModeNumber) {
                             this._setValue(lastPicked.clone().year(this._viewDate.year()).month(this._viewDate.month()), this._getLastPickedDateIndex());
                             if (!this._options.inline) {
@@ -2328,13 +2285,7 @@ var TempusDominusBootstrap4 = function ($) {
                 case 'selectYear':
                     {
                         var year = parseInt($(e.target).text(), 10) || 0;
-                        /// parOdoo fixup
-                        if (this.getCalendar()=='j' && this._viewDate.jYear)                     {
-                                this._viewDate.jYear(year)
-                        }
-                        else{
-                            this._viewDate.year(year);
-                        }
+                        this._viewDate.year(year);
                         if (this.currentViewMode === DateTimePicker.MinViewModeNumber) {
                             this._setValue(lastPicked.clone().year(this._viewDate.year()), this._getLastPickedDateIndex());
                             if (!this._options.inline) {
@@ -2365,26 +2316,14 @@ var TempusDominusBootstrap4 = function ($) {
                     }
                 case 'selectDay':
                     {
-                        //debugger;
-                        /// Babak
-                        /// Orginal code will use wierd way to figure out the selected
-                        /// day based on text of cell.
-                        
-                        // var day = this._viewDate.clone();
-                        // if ($(e.target).is('.old')) {
-                        //     day.subtract(1, 'M');
-                        // }
-                        // if ($(e.target).is('.new')) {
-                        //     day.add(1, 'M');
-                        // }
-                        // this._setValue(day.date(parseInt($(e.target).text(), 10)), this._getLastPickedDateIndex());
-
-                        // We will use the data-day attribute
-                        //debugger;
-                        var selected_date = moment(e.target.getAttribute('data-date'));
-                        //var date =this._viewDate.clone().parse(e.target.getAttribute('data-date','YYYY-MM-DD'));
-                        this._setValue(selected_date, this._getLastPickedDateIndex());
-
+                        var day = this._viewDate.clone();
+                        if ($(e.target).is('.old')) {
+                            day.subtract(1, 'M');
+                        }
+                        if ($(e.target).is('.new')) {
+                            day.add(1, 'M');
+                        }
+                        this._setValue(day.date(parseInt($(e.target).text(), 10)), this._getLastPickedDateIndex());
                         if (!this._hasTime() && !this._options.keepOpen && !this._options.inline) {
                             this.hide();
                         }
@@ -2594,30 +2533,6 @@ var TempusDominusBootstrap4 = function ($) {
             this._viewDate = this._getLastPickedDate().clone();
         };
 
-        /**
-         * parOdoo fixup: 
-         * Returns the calendar to be used. This is a single character such as
-         * '' or 'g' for Gregorian. 'j' for Persian (jalali) etc...
-         * 
-         * 
-         */
-        TempusDominusBootstrap4.prototype.getCalendar = function(){
-            /// Within odoo environment we may use user_context.getCalendar
-            var user_context = ((typeof odoo=='undefined'?{}:odoo).session_info ||{}).user_context;
-            if (user_context && typeof user_context.getCalendar==='function')
-            {
-                return user_context.getCalendar();
-            }
-            /// If calendar is set on user_context
-            if (user_context && typeof user_context.calendar=='string'){
-                return user_context.calendar.startsWith('j')?'j':'';
-            }
-            // Otherwise if 'calendar' is present on 'options' return it
-            // if not, return jalali calendar if locale is fa.
-            return (this._options || {}).calendar || (moment.locale()=='fa'?'j':'');
-        }
-
-
         TempusDominusBootstrap4.prototype.show = function show() {
             var currentMoment = void 0;
             var useCurrentGranularity = {
@@ -2637,7 +2552,6 @@ var TempusDominusBootstrap4 = function ($) {
                     return m.seconds(0);
                 }
             };
-            //debugger;
 
             if (this.input !== undefined) {
                 if (this.input.prop('disabled') || !this._options.ignoreReadonly && this.input.prop('readonly') || this.widget) {
@@ -2661,9 +2575,8 @@ var TempusDominusBootstrap4 = function ($) {
             }
 
             this.widget = this._getTemplate();
-            //debugger;
+
             this._fillDow();
-            //debugger;
             this._fillMonths();
 
             this.widget.find('.timepicker-hours').hide();
@@ -2873,7 +2786,8 @@ var TempusDominusBootstrap4 = function ($) {
         if ($target.length === 0) {
             return;
         }
-        if (!config._options.allowInputToggle) {
+        // /!\ ODOO FIX: check on 'config' existence added by odoo
+        if (!(config && config._options.allowInputToggle)) {
             return;
         }
         TempusDominusBootstrap4._jQueryInterface.call($target, 'show', event);
